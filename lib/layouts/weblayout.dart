@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:rubikscube/widgets/big_cube.dart';
 import 'package:rubikscube/widgets/cubelets.dart';
@@ -6,8 +7,9 @@ import 'package:rubikscube/widgets/small_cube.dart';
 import '../math/formula.dart';
 
 class WebLayout extends StatefulWidget {
-  const WebLayout({Key? key}) : super(key: key);
-
+  const WebLayout({Key? key, required this.height, required this.width})
+      : super(key: key);
+  final double height, width;
   @override
   State<WebLayout> createState() => _WebLayoutState();
 }
@@ -17,49 +19,36 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
   late bool isMobile;
   late SmallCube smallCube, secondCube;
   late Game game;
+  late double cubeSize;
+  late double centerX;
+  late double centerY;
   double anglex = 0, angley = 0, anglez = 0;
   double cursorX = 0, cursorY = 0;
+  late double height;
+  late double width;
+
   @override
   void initState() {
     super.initState();
-    isMobile = false;
-    animationController = AnimationController(
-      vsync: this,
-      lowerBound: 0,
-      upperBound: degreeToRadian(degree: 360),
-      duration: const Duration(seconds: 4),
-    )..addListener(() {
-        if (animationController.isAnimating) {
-          setState(() {
-            // angley = animationController.value;
-            anglex = animationController.value;
-          });
-        }
-      })..repeat();
-    angley = degreeToRadian(degree: 10);
+    height = widget.height;
+    width = widget.width;
+    if (width < height) {
+      isMobile = true;
+    } else {
+      isMobile = false;
+    }
+    cubeSize = min(height, width) / (isMobile ? 6 : 5);
+    centerX = isMobile ? (width / 2) : (width / 2) * 1.25;
+    centerY = height / 2;
+    game = Game(
+      cubeSize: cubeSize,
+      centerX: centerX,
+      centerY: centerY,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
-    game = Game(cubeSize: 150, height: height, width: width);
-
-    Cubelets cube = Cubelets(
-      id: 1,
-      cordinates: [(width / 2) - 300, height / 2, 0],
-      height: height,
-      width: width,
-    );
-
-    if (width < 600) {
-      isMobile = true;
-      setState(() {});
-    } else {
-      isMobile = false;
-      setState(() {});
-    }
-
     return Scaffold(
       body: Stack(
         children: [
@@ -78,8 +67,7 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
                 anglex =
                     (anglex + ((details.localPosition.dx - cursorX) / 5000)) %
                         degreeToRadian(degree: 360);
-                anglez = (anglex + angley) % degreeToRadian(degree: 720);
-                // game.rotateGame(anglex, angley);
+                        game.rotateGame(anglex, angley);
               },
             ),
             child: Container(
@@ -97,18 +85,32 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
               ),
             ),
           ),
-          Positioned(
-            top: height * 0.05,
-            left: 100,
-            child: const Text(
-              'Sliding\nPuzzle\n3D',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 35,
-                fontFamily: 'Titan',
-              ),
-            ),
-          ),
+          isMobile
+              ? Positioned(
+                  top: height * 0.05,
+                  child: Center(
+                    child: Text(
+                      'Sliding Puzzle 3D',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: width * 0.05,
+                        fontFamily: 'Titan',
+                      ),
+                    ),
+                  ),
+                )
+              : Positioned(
+                  top: height * 0.05,
+                  left: 100,
+                  child: const Text(
+                    'Sliding\nPuzzle\n3D',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 35,
+                      fontFamily: 'Titan',
+                    ),
+                  ),
+                ),
           Positioned(
             bottom: isMobile ? height * 0.05 : height * 0.1,
             left: 100,
@@ -129,37 +131,58 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
                   child: Text(
                     'Start Game ',
                     style: TextStyle(
-                        color: Colors.white, fontSize: 25, fontFamily: 'Titan'),
+                      fontSize: 25,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-          BigCube(
-                game: game,
-                anglex: anglex,
-                angley: angley,
-
-          )
-          // LayoutBuilder(
-          //   builder: (_, __) {
-          //     var rotationmatrix = rotationMatrix(0, anglex, 0);
-          //     cube.rotate(rotationmatrix, [width / 2, height / 2, 0]);
-          //     return Stack(
-          //       children: [
-          //         Positioned(
-          //           top: cube.cordinates[1] - 75,
-          //           left: cube.cordinates[0] - 75,
-          //           child: SmallCube(
-          //             cubelets: cube,
-          //             anglex: anglex,
-          //             angley: 0,
-          //           ),
-          //         ),
-          //       ],
-          //     );
-          //   },
-          // ),
+          Positioned(
+            top: height / 2,
+            left: width / 9,
+            child: const Text('Moves'),
+          ),
+          // BigCube(
+          //   game: game,
+          //   anglex: anglex,
+          //   angley: angley,
+          // )
+          LayoutBuilder(builder: (_, __) {
+            // game.rotateGame(anglex, angley);
+            List<Cubelets> cubes = game.getNewCubeletList();
+            List<Widget> children = List.generate(
+              cubes.length,
+              (index) => cubes[index].id == 27
+                  ? Container()
+                  : Positioned(
+                      top: cubes[index].cordinates[1] - game.cubeSize / 2,
+                      left: cubes[index].cordinates[0] - game.cubeSize / 2,
+                      child: Transform(
+                        transform: Matrix4.identity()
+                          ..rotateY(anglex)
+                          ..rotateX(angley),
+                        child: GestureDetector(
+                          onTap: () {
+                            print(cubes[index].id);
+                            game.shuffleCubes(cubes[index].id);
+                          },
+                          child: SmallCube(
+                            cubelets: cubes[index],
+                            anglex: anglex,
+                            angley: angley,
+                          ),
+                        ),
+                      ),
+                    ),
+            );
+            return Transform(
+              transform: Matrix4.identity()..rotateX(angley)..rotateY(anglex),
+              child: Stack(
+                children: children,
+              ),
+            );
+          })
         ],
       ),
     );

@@ -2,68 +2,61 @@ import 'game.dart';
 import '../math/formula.dart';
 
 class Cubelets {
-  Cubelets(
-      {required this.id,
-      required this.cordinates,
-      required this.height,
-      required this.width}) {
-                
+  Cubelets({
+    required this.id,
+    required this.cordinates,
+    required this.cubeSize,
+  }) {
     faces.add(
       Faces(
-          imagepath: '',
-          cordinates: [cordinates[0] - 75, cordinates[1], cordinates[2]],
-          translate: [-75, 0, 0],
-          rotationA: [0, degreeToRadian(degree: 270), 0],
-          height: height,
-          width: width),
+        imagepath: '',
+        cordinates: [cordinates[0] - cubeSize, cordinates[1], cordinates[2]],
+        translate: [-cubeSize, 0, 0],
+        rotationA: [0, degreeToRadian(degree: 270), 0],
+      ),
     );
     faces.add(
       Faces(
-          imagepath: '',
-          cordinates: [cordinates[0] + 75, cordinates[1], cordinates[2]],
-          translate: [75, 0, 0],
-          rotationA: [0, degreeToRadian(degree: 90), 0],
-          height: height,
-          width: width),
+        imagepath: '',
+        cordinates: [cordinates[0] + cubeSize, cordinates[1], cordinates[2]],
+        translate: [cubeSize, 0, 0],
+        rotationA: [0, degreeToRadian(degree: 90), 0],
+      ),
     );
     faces.add(
       Faces(
-          imagepath: '',
-          cordinates: [cordinates[0], cordinates[1] + 75, cordinates[2]],
-          translate: [0, 75, 0],
-          rotationA: [degreeToRadian(degree: 270), 0, 0],
-          height: height,
-          width: width),
+        imagepath: '',
+        cordinates: [cordinates[0], cordinates[1] + cubeSize, cordinates[2]],
+        translate: [0, cubeSize, 0],
+        rotationA: [degreeToRadian(degree: 270), 0, 0],
+      ),
     );
     faces.add(
       Faces(
-          imagepath: '',
-          cordinates: [cordinates[0], cordinates[1] - 75, cordinates[2]],
-          translate: [0, -75, 0],
-          rotationA: [degreeToRadian(degree: 90), 0, 0],
-          height: height,
-          width: width),
+        imagepath: '',
+        cordinates: [cordinates[0], cordinates[1] - cubeSize, cordinates[2]],
+        translate: [0, -cubeSize, 0],
+        rotationA: [degreeToRadian(degree: 90), 0, 0],
+      ),
     );
     faces.add(
       Faces(
-          imagepath: '',
-          cordinates: [cordinates[0], cordinates[1], cordinates[2] + 75],
-          translate: [0, 0, 75],
-          rotationA: [0, 0, 0],
-          height: height,
-          width: width),
+        imagepath: '',
+        cordinates: [cordinates[0], cordinates[1], cordinates[2] + cubeSize],
+        translate: [0, 0, cubeSize],
+        rotationA: [0, 0, 0],
+      ),
     );
     faces.add(
       Faces(
-          imagepath: '',
-          cordinates: [cordinates[0], cordinates[1], cordinates[2] - 75],
-          translate: [0, 0, -75],
-          rotationA: [0, degreeToRadian(degree: 180), 0],
-          height: height,
-          width: width),
+        imagepath: '',
+        cordinates: [cordinates[0], cordinates[1], cordinates[2] - cubeSize],
+        translate: [0, 0, -cubeSize],
+        rotationA: [0, degreeToRadian(degree: 180), 0],
+      ),
     );
   }
-  double height, width;
+  double cubeSize;
   List<Faces> faces = [];
   List<double> cordinates;
   List<double> cordinates2d = [];
@@ -79,7 +72,7 @@ class Cubelets {
     List<Faces> newFaces = List.generate(6, (index) => faces[index]);
     newFaces.sort(
       (a, b) {
-       return a.cordinates[2].compareTo(b.cordinates[2]);
+        return a.cordinates[2].compareTo(b.cordinates[2]);
       },
     );
     return newFaces.sublist(3);

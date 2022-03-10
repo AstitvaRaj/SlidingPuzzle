@@ -14,6 +14,13 @@ class MyApp extends StatelessWidget {
       title: '''Slide Puzzle 3D''',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        textTheme: const TextTheme(
+          bodyText1: TextStyle(),
+          bodyText2: TextStyle(),
+        ).apply(
+          bodyColor: Colors.white,
+          fontFamily: 'Titan'
+        ),
       ),
       home: const HomePage(),
       debugShowCheckedModeBanner: false,

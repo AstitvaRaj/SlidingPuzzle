@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rubikscube/widgets/game.dart';
 import 'package:rubikscube/widgets/small_cube.dart';
-
 import 'cubelets.dart';
 
 class BigCube extends StatefulWidget {
@@ -27,17 +26,28 @@ class _BigCubeState extends State<BigCube> {
         List<Cubelets> cubes = widget.game.getNewCubeletList();
         List<Widget> children = List.generate(
           cubes.length,
-          (index) => Positioned(
-            top:cubes[index].cordinates[1]-75,
-            left: cubes[index].cordinates[0]-75,
-            child: SmallCube(
-              cubelets: cubes[index],
-              anglex: widget.anglex,
-              angley: widget.angley,
-            ),
-          ),
+          (index) => cubes[index].id == 27
+              ? Container()
+              : Positioned(
+                  top: cubes[index].cordinates[1] - widget.game.cubeSize/2,
+                  left: cubes[index].cordinates[0] - widget.game.cubeSize/2,
+                  child: GestureDetector(
+                    onTap: (){
+                      print(cubes[index].id);
+                      widget.game.shuffleCubes(cubes[index].id);
+                      setState(() {
+                        
+                      });
+
+                    },
+                    child: SmallCube(
+                      cubelets: cubes[index],
+                      anglex: widget.anglex,
+                      angley: widget.angley,
+                    ),
+                  ),
+                ),
         );
-        // print(cubes[0].cordinates+cubes[1].cordinates);
         return Stack(
           children: children,
         );

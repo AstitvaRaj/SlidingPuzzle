@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rubikscube/math/formula.dart';
 import 'package:rubikscube/widgets/game.dart';
 import 'cubelets.dart';
 
@@ -21,34 +20,33 @@ class _SmallCubeState extends State<SmallCube> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        List<List<double>> r = rotationMatrix(0, widget.anglex, widget.angley);
         List<Faces> faces = widget.cubelets.getNewFaces();
         List<Widget> children = List.generate(
           3,
           (index) => Transform(
-            origin: const Offset(75, 75),
+            origin:  Offset(widget.cubelets.cubeSize, widget.cubelets.cubeSize),
             transform: Matrix4.identity()
-              ..translate(faces[index].translate[0],
-                  faces[index].translate[1], faces[index].translate[2])
+              ..translate(faces[index].translate[0], faces[index].translate[1],
+                  faces[index].translate[2])
               ..rotateX(faces[index].rotationA[0])
               ..rotateY(faces[index].rotationA[1])
               ..rotateZ(faces[index].rotationA[2]),
             child: Container(
-                padding: const EdgeInsets.all(5),
-                height: 150,
-                width: 150,
-                color: Colors.white,
-                child: faces[index].imagepath == ''
-                    ? null
-                    : Image.asset(faces[index].imagepath!)),
+              padding: const EdgeInsets.all(5),
+              height: widget.cubelets.cubeSize*2,
+              width: widget.cubelets.cubeSize*2,
+              color: Colors.white,
+              child: faces[index].imagepath == ''
+                  ? null
+                  : Image.asset(faces[index].imagepath!),
+            ),
           ),
         );
         return Transform(
           transform: Matrix4.identity()
-            ..rotateY(widget.anglex)..rotateX(widget.angley)
-            ,
-            // ..rotateX(widget.angley),
-          origin: Offset(75, 75),
+            ..rotateY(widget.anglex)
+            ..rotateX(widget.angley),
+          origin: Offset(widget.cubelets.cubeSize, widget.cubelets.cubeSize),
           child: Stack(
             children: children,
           ),

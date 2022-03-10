@@ -45,30 +45,3 @@ List<double> rotation(List<List<double>> rotationmatrix, List<double> around,
   }
   return newPositions;
 }
-
-
-// List<double> update2DCordinates(List<double> points, List<double> camera) {
-//   camera = [768, 376.79998779296875,-200];
-//   List<double> cordinates = [
-//     ((points[0] - camera[0]) *
-//             ((points[2] - camera[2]) / points[2] == 0 ? 1 : points[2])) +
-//         camera[0],
-//     ((points[1] - camera[1]) *
-//             ((points[2] - camera[2]) / points[2] == 0 ? 1 : points[2])) +
-//         camera[1]
-//   ];
-//   return cordinates;
-// }
-
-// List<double> update2DCordinates(List<double> points, List<double> camera) {
-//   List <double> origin = [768, 376.79998779296875, 0];
-//   List<double> temp = List.generate(3, (index) => points[index]-origin[index]);
-
-//   List<double> cordinates = [
-//     temp[0]*(-20)/temp[2],
-//     temp[1]*(-20)/temp[2]
-//   ];
-//   cordinates[0]+=temp[0];
-//   cordinates[1]+=temp[1];
-//   return cordinates;
-// }

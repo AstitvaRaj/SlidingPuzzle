@@ -58,6 +58,60 @@ flutter:
   uses-material-design: true
   assets : 
     - assets/
+    - assets/tiles/blue/1.jpg
+    - assets/tiles/blue/2.jpg
+    - assets/tiles/blue/3.jpg
+    - assets/tiles/blue/4.jpg
+    - assets/tiles/blue/5.jpg
+    - assets/tiles/blue/6.jpg
+    - assets/tiles/blue/7.jpg
+    - assets/tiles/blue/8.jpg
+    - assets/tiles/blue/9.jpg
+    - assets/tiles/red/1.jpg
+    - assets/tiles/red/2.jpg
+    - assets/tiles/red/3.jpg
+    - assets/tiles/red/4.jpg
+    - assets/tiles/red/5.jpg
+    - assets/tiles/red/6.jpg
+    - assets/tiles/red/7.jpg
+    - assets/tiles/red/8.jpg
+    - assets/tiles/red/9.jpg
+    - assets/tiles/yellow/1.jpg
+    - assets/tiles/yellow/2.jpg
+    - assets/tiles/yellow/3.jpg
+    - assets/tiles/yellow/4.jpg
+    - assets/tiles/yellow/5.jpg
+    - assets/tiles/yellow/6.jpg
+    - assets/tiles/yellow/7.jpg
+    - assets/tiles/yellow/8.jpg
+    - assets/tiles/yellow/9.jpg
+    - assets/tiles/white/1.jpg
+    - assets/tiles/white/2.jpg
+    - assets/tiles/white/3.jpg
+    - assets/tiles/white/4.jpg
+    - assets/tiles/white/5.jpg
+    - assets/tiles/white/6.jpg
+    - assets/tiles/white/7.jpg
+    - assets/tiles/white/8.jpg
+    - assets/tiles/white/9.jpg    
+    - assets/tiles/green/1.jpg
+    - assets/tiles/green/2.jpg
+    - assets/tiles/green/3.jpg
+    - assets/tiles/green/4.jpg
+    - assets/tiles/green/5.jpg
+    - assets/tiles/green/6.jpg
+    - assets/tiles/green/7.jpg
+    - assets/tiles/green/8.jpg
+    - assets/tiles/green/9.jpg
+    - assets/tiles/purple/1.jpg
+    - assets/tiles/purple/2.jpg
+    - assets/tiles/purple/3.jpg
+    - assets/tiles/purple/4.jpg
+    - assets/tiles/purple/5.jpg
+    - assets/tiles/purple/6.jpg
+    - assets/tiles/purple/7.jpg
+    - assets/tiles/purple/8.jpg
+    - assets/tiles/purple/9.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:
