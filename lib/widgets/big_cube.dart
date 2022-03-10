@@ -28,8 +28,8 @@ class _BigCubeState extends State<BigCube> {
         List<Widget> children = List.generate(
           cubes.length,
           (index) => Positioned(
-            top:cubes[index].cordinates[1],
-            left: cubes[index].cordinates[0],
+            top:cubes[index].cordinates[1]-75,
+            left: cubes[index].cordinates[0]-75,
             child: SmallCube(
               cubelets: cubes[index],
               anglex: widget.anglex,
@@ -38,15 +38,8 @@ class _BigCubeState extends State<BigCube> {
           ),
         );
         // print(cubes[0].cordinates+cubes[1].cordinates);
-        return Transform(
-          transform: Matrix4.identity()
-            ..rotateY(widget.anglex)
-            ..rotateX(widget.angley),
-            // ..setEntry(3, 2, -0.001),
-          origin: Offset(widget.game.width/2,widget.game.height/2),
-          child: Stack(
-            children: children,
-          ),
+        return Stack(
+          children: children,
         );
       },
     );

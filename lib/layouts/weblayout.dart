@@ -133,29 +133,29 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
               ),
             ),
           ),
-          // BigCube(
-          //       game: game,
-          //       anglex: anglex,
-          //       angley: angley,
+          BigCube(
+                game: game,
+                anglex: anglex,
+                angley: angley,
 
-          // )
-          LayoutBuilder(builder: (_, __) {
-            var rotationmatrix = rotationMatrix(0, anglex, 0);
-            cube.rotate(rotationmatrix, [width / 2, height / 2, 0]);
-            return Stack(
-              children: [
-                Positioned(
-                  top: cube.cordinates2d[1],
-                  left: cube.cordinates2d[0],
-                  child: SmallCube(
-                    cubelets: cube,
-                    anglex: anglex,
-                    angley: 0,
-                  ),
-                ),
-              ],
-            );
-          }),
+          )
+          // LayoutBuilder(builder: (_, __) {
+          //   var rotationmatrix = rotationMatrix(0, anglex, 0);
+          //   cube.rotate(rotationmatrix, [width / 2, height / 2, 0]);
+          //   return Stack(
+          //     children: [
+          //       Positioned(
+          //         top: cube.cordinates2d[1],
+          //         left: cube.cordinates2d[0],
+          //         child: SmallCube(
+          //           cubelets: cube,
+          //           anglex: anglex,
+          //           angley: 0,
+          //         ),
+          //       ),
+          //     ],
+          //   );
+          // }),
         ],
       ),
     );

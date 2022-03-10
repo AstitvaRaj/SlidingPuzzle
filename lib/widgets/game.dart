@@ -18,7 +18,7 @@ class Faces {
   List<double> rotationA = [];
   void rotateFace(List<List<double>> rotationmatrix, List<double> around) {
     cordinates = rotation(rotationmatrix, around, cordinates);
-    cordinates2d = update2DCordinates(cordinates,[768, 376.79998779296875, 1220]);
+    // cordinates2d = update2DCordinates(cordinates,[768, 376.79998779296875, 1220]);
   }
 }
 
@@ -51,24 +51,24 @@ class Game {
         [25, 26, 27],
       ]
     ];
-    double y = -cubeSize;
+    double y = (height/2)-cubeSize;
     for (int i = 0; i < 3; i++) {
-      double z = -300;
+      double z = -150;
       for (int j = 0; j < 3; j++) {
-        double x = -cubeSize;
+        double x = (width/2)-cubeSize;
         for (int k = 0; k < 3; k++) {
-          print('${(k + 1) + (j * 3) + (i * 9)} : ${(width / 2) + x}, ${(height / 2) + y}, ${z}');
+          // print('${(k + 1) + (j * 3) + (i * 9)} : ${(width / 2) + x}, ${(height / 2) + y}, ${z}');
           cubelets.add(
             Cubelets(
               id: (k + 1) + (j * 3) + (i * 9),
-              cordinates: [(width / 2) + x, (height / 2) + y, z],
+              cordinates: [x,  y, z],
               height: height,
               width: width,
             ),
           );
           x += cubeSize;
         }
-        z += cubeSize+cubeSize;
+        z += cubeSize;
       }
       y += cubeSize;
     }
@@ -129,8 +129,7 @@ class Game {
     var rotationmatrix = rotationMatrix(0, angleX, angleY);
     int i = 0;
     for (i = 0; i < 27; i++) {
-      cubelets[i].rotate(rotationmatrix, [768, 376.79998779296875, 150
-]);
+      cubelets[i].rotate(rotationmatrix, [width/2, height/2,0]);
       // print(cubelets[i].cordinates);
     }
   }
