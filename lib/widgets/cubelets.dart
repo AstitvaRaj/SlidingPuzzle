@@ -7,6 +7,7 @@ class Cubelets {
     required this.cordinates,
     required this.cubeSize,
   }) {
+    initialCordinates = List.generate(cordinates.length,(index)=>cordinates[index]);
     faces.add(
       Faces(
         imagepath: '',
@@ -60,9 +61,10 @@ class Cubelets {
   List<Faces> faces = [];
   List<double> cordinates;
   List<double> cordinates2d = [];
+  List<double> initialCordinates = [];
   int id;
   void rotate(List<List<double>> rotationmatrix, List<double> around) {
-    cordinates = rotation(rotationmatrix, around, cordinates);
+    cordinates = rotation(rotationmatrix, around, initialCordinates);
     for (int i = 0; i < 6; i++) {
       faces[i].rotateFace(rotationmatrix, around);
     }

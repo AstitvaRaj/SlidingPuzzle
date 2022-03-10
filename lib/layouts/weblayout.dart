@@ -143,46 +143,12 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
             left: width / 9,
             child: const Text('Moves'),
           ),
-          // BigCube(
-          //   game: game,
-          //   anglex: anglex,
-          //   angley: angley,
-          // )
-          LayoutBuilder(builder: (_, __) {
-            // game.rotateGame(anglex, angley);
-            List<Cubelets> cubes = game.getNewCubeletList();
-            List<Widget> children = List.generate(
-              cubes.length,
-              (index) => cubes[index].id == 27
-                  ? Container()
-                  : Positioned(
-                      top: cubes[index].cordinates[1] - game.cubeSize / 2,
-                      left: cubes[index].cordinates[0] - game.cubeSize / 2,
-                      child: Transform(
-                        transform: Matrix4.identity()
-                          ..rotateY(anglex)
-                          ..rotateX(angley),
-                        child: GestureDetector(
-                          onTap: () {
-                            print(cubes[index].id);
-                            game.shuffleCubes(cubes[index].id);
-                          },
-                          child: SmallCube(
-                            cubelets: cubes[index],
-                            anglex: anglex,
-                            angley: angley,
-                          ),
-                        ),
-                      ),
-                    ),
-            );
-            return Transform(
-              transform: Matrix4.identity()..rotateX(angley)..rotateY(anglex),
-              child: Stack(
-                children: children,
-              ),
-            );
-          })
+          BigCube(
+            game: game,
+            anglex: anglex,
+            angley: angley,
+          )
+          
         ],
       ),
     );

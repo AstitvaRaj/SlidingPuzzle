@@ -7,15 +7,18 @@ class Faces {
     required this.cordinates,
     required this.translate,
     required this.rotationA,
-  });
+  }){
+    initialCordinates = List.generate(cordinates.length, (index) => cordinates[index]);
+  }
   String? imagepath = '';
   List<double> angle = [];
   List<double> translate = [];
   List<double> cordinates = [];
   List<double> cordinates2d = [];
   List<double> rotationA = [];
+  List<double> initialCordinates = [];
   void rotateFace(List<List<double>> rotationmatrix, List<double> around) {
-    cordinates = rotation(rotationmatrix, around, cordinates);
+    cordinates = rotation(rotationmatrix, around, initialCordinates);
   }
 }
 
@@ -123,8 +126,8 @@ class Game {
   }
 
   void shuffleCubes(int id) {
-    var temp = cubelets[id-1].cordinates;
-    cubelets[id-1].cordinates = cubelets[26].cordinates;
+    var temp = cubelets[id-1].initialCordinates;
+    cubelets[id-1].initialCordinates = cubelets[26].initialCordinates;
     cubelets[26].cordinates = temp;
    }
   void clickedOnTile(int id) {
