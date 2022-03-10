@@ -8,7 +8,9 @@ class Faces {
       required this.translate,
       required this.rotationA,
       required this.height,
-      required this.width});
+      required this.width}){
+        // print(cordinates);
+      }
   double height, width;
   String? imagepath = '';
   List<double> angle = [];
@@ -18,7 +20,9 @@ class Faces {
   List<double> rotationA = [];
   void rotateFace(List<List<double>> rotationmatrix, List<double> around) {
     cordinates = rotation(rotationmatrix, around, cordinates);
+    // print(cordinates);
     // cordinates2d = update2DCordinates(cordinates,[768, 376.79998779296875, 1220]);
+    // cordinates = List.generate(3, (index) => around[index]+translate[index]);
   }
 }
 
@@ -53,7 +57,7 @@ class Game {
     ];
     double y = (height/2)-cubeSize;
     for (int i = 0; i < 3; i++) {
-      double z = -150;
+      double z = -cubeSize;
       for (int j = 0; j < 3; j++) {
         double x = (width/2)-cubeSize;
         for (int k = 0; k < 3; k++) {

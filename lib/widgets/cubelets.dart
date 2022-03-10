@@ -7,8 +7,7 @@ class Cubelets {
       required this.cordinates,
       required this.height,
       required this.width}) {
-    // cordinates2d = update2DCordinates(cordinates,[768, 376.79998779296875, 1220]);
-    // print(cordinates2d);
+                
     faces.add(
       Faces(
           imagepath: '',
@@ -72,13 +71,17 @@ class Cubelets {
   void rotate(List<List<double>> rotationmatrix, List<double> around) {
     cordinates = rotation(rotationmatrix, around, cordinates);
     for (int i = 0; i < 6; i++) {
-      faces[i].rotateFace(rotationmatrix, cordinates);
+      faces[i].rotateFace(rotationmatrix, around);
     }
   }
 
   List<Faces> getNewFaces() {
     List<Faces> newFaces = List.generate(6, (index) => faces[index]);
-    newFaces.sort((a, b) => a.cordinates[2].compareTo(b.cordinates[2]));
-    return newFaces;
+    newFaces.sort(
+      (a, b) {
+       return a.cordinates[2].compareTo(b.cordinates[2]);
+      },
+    );
+    return newFaces.sublist(3);
   }
 }

@@ -32,10 +32,11 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
         if (animationController.isAnimating) {
           setState(() {
             // angley = animationController.value;
-            // anglex = animationController.value;
+            anglex = animationController.value;
           });
         }
-      });
+      })..repeat();
+    angley = degreeToRadian(degree: 10);
   }
 
   @override
@@ -43,6 +44,7 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     game = Game(cubeSize: 150, height: height, width: width);
+
     Cubelets cube = Cubelets(
       id: 1,
       cordinates: [(width / 2) - 300, height / 2, 0],
@@ -139,23 +141,25 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
                 angley: angley,
 
           )
-          // LayoutBuilder(builder: (_, __) {
-          //   var rotationmatrix = rotationMatrix(0, anglex, 0);
-          //   cube.rotate(rotationmatrix, [width / 2, height / 2, 0]);
-          //   return Stack(
-          //     children: [
-          //       Positioned(
-          //         top: cube.cordinates2d[1],
-          //         left: cube.cordinates2d[0],
-          //         child: SmallCube(
-          //           cubelets: cube,
-          //           anglex: anglex,
-          //           angley: 0,
+          // LayoutBuilder(
+          //   builder: (_, __) {
+          //     var rotationmatrix = rotationMatrix(0, anglex, 0);
+          //     cube.rotate(rotationmatrix, [width / 2, height / 2, 0]);
+          //     return Stack(
+          //       children: [
+          //         Positioned(
+          //           top: cube.cordinates[1] - 75,
+          //           left: cube.cordinates[0] - 75,
+          //           child: SmallCube(
+          //             cubelets: cube,
+          //             anglex: anglex,
+          //             angley: 0,
+          //           ),
           //         ),
-          //       ),
-          //     ],
-          //   );
-          // }),
+          //       ],
+          //     );
+          //   },
+          // ),
         ],
       ),
     );
