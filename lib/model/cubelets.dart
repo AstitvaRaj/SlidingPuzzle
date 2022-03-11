@@ -1,11 +1,16 @@
+import 'package:rubikscube/model/faces.dart';
+
 import 'game.dart';
-import '../math/formula.dart';
+import '../math/utils.dart';
 
 class Cubelets {
   Cubelets({
     required this.id,
     required this.cordinates,
     required this.cubeSize,
+    required this.i,
+    required this.j,
+    required this.k
   }) {
     initialCordinates = List.generate(cordinates.length,(index)=>cordinates[index]);
     faces.add(
@@ -57,6 +62,7 @@ class Cubelets {
       ),
     );
   }
+  late int i,j,k;
   double cubeSize;
   List<Faces> faces = [];
   List<double> cordinates;

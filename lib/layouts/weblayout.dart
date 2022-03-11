@@ -1,10 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:rubikscube/widgets/big_cube.dart';
-import 'package:rubikscube/widgets/cubelets.dart';
-import 'package:rubikscube/widgets/game.dart';
+import 'package:rubikscube/model/game.dart';
 import 'package:rubikscube/widgets/small_cube.dart';
-import '../math/formula.dart';
+import '../math/utils.dart';
 
 class WebLayout extends StatefulWidget {
   const WebLayout({Key? key, required this.height, required this.width})
@@ -45,11 +44,27 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
       centerX: centerX,
       centerY: centerY,
     );
+    animationController = AnimationController(
+      vsync: this,
+      lowerBound: 0,
+      upperBound: degreeToRadian(degree: 360),
+      duration: const Duration(seconds: 3),
+    )..addListener(() {
+        if (animationController.isAnimating) {
+          setState(() {
+            anglex = animationController.value;
+            angley = degreeToRadian(degree: -10);
+          });
+        }
+      });
   }
+
+  final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldkey,
       body: Stack(
         children: [
           GestureDetector(
@@ -67,7 +82,7 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
                 anglex =
                     (anglex + ((details.localPosition.dx - cursorX) / 5000)) %
                         degreeToRadian(degree: 360);
-                        game.rotateGame(anglex, angley);
+                game.rotateGame(anglex, -angley);
               },
             ),
             child: Container(
@@ -141,14 +156,18 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
           Positioned(
             top: height / 2,
             left: width / 9,
-            child: const Text('Moves'),
+            child: Text('Moves ${game.moves}'),
           ),
-          BigCube(
-            game: game,
-            anglex: anglex,
-            angley: angley,
+          GestureDetector(
+            onTap: () {
+              setState(() {});
+            },
+            child: BigCube(
+              game: game,
+              anglex: anglex,
+              angley: -angley,
+            ),
           )
-          
         ],
       ),
     );
