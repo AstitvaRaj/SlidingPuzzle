@@ -45,60 +45,18 @@ class _SmallCubeState extends State<SmallCube>
               ..rotateY(faces[index].rotationA[1])
               ..rotateZ(faces[index].rotationA[2]),
             child: faces[index].imagepath == ''
-                ? GestureDetector(
-                    onTap: () {
-                      if (widget.cubelets.id != 14) {
-                        List<int> temp =
-                            widget.game.clickedOnTile(widget.cubelets.id);
-                        for (var i in temp) {
-                          widget.game.swapCurrentState(
-                              widget.game.cubelets[i - 1].i,
-                              widget.game.cubelets[i - 1].j,
-                              widget.game.cubelets[i - 1].k,
-                              widget.game.cubelets[26].i,
-                              widget.game.cubelets[26].j,
-                              widget.game.cubelets[26].k);
-                          widget.game.swapCubelets(widget.game.cubelets[i - 1],
-                              widget.game.cubelets[26]);
-                        }
-                        widget.game.moves += temp.isEmpty ? 0 : 1;
-                        widget.refreshHomeScreen();
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(5),
-                      height: widget.cubelets.cubeSize * 2,
-                      width: widget.cubelets.cubeSize * 2,
-                      color: Colors.white,
-                    ),
-                  )
-                : GestureDetector(
-                    onTap: () {
-                      if (widget.cubelets.id != 14) {
-                        List<int> temp =
-                            widget.game.clickedOnTile(widget.cubelets.id);
-                        for (var i in temp) {
-                          widget.game.swapCurrentState(
-                              widget.game.cubelets[i - 1].i,
-                              widget.game.cubelets[i - 1].j,
-                              widget.game.cubelets[i - 1].k,
-                              widget.game.cubelets[26].i,
-                              widget.game.cubelets[26].j,
-                              widget.game.cubelets[26].k);
-                          widget.game.swapCubelets(widget.game.cubelets[i - 1],
-                              widget.game.cubelets[26]);
-                        }
-                        widget.game.moves += temp.isEmpty ? 0 : 1;
-                        widget.refreshHomeScreen();
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(5),
-                      height: widget.cubelets.cubeSize * 2,
-                      width: widget.cubelets.cubeSize * 2,
-                      color: Colors.white,
-                      child: Image.asset(faces[index].imagepath!),
-                    ),
+                ? Container(
+                  padding: const EdgeInsets.all(5),
+                  height: widget.cubelets.cubeSize * 2,
+                  width: widget.cubelets.cubeSize * 2,
+                  color: Colors.white,
+                )
+                : Container(
+                    padding: const EdgeInsets.all(5),
+                    height: widget.cubelets.cubeSize * 2,
+                    width: widget.cubelets.cubeSize * 2,
+                    color: Colors.white,
+                    child: Image.asset(faces[index].imagepath!),
                   ),
           ),
         );
@@ -108,6 +66,7 @@ class _SmallCubeState extends State<SmallCube>
             ..rotateX(widget.angley),
           origin: Offset(widget.cubelets.cubeSize, widget.cubelets.cubeSize),
           child: Stack(
+            clipBehavior: Clip.none,
             children: children,
           ),
         );

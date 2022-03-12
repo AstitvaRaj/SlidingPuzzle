@@ -27,16 +27,37 @@ class BigCube extends StatelessWidget {
               : Positioned(
                   top: cubes[index].cordinates[1] - game.cubeSize / 2,
                   left: cubes[index].cordinates[0] - game.cubeSize / 2,
-                  child: SmallCube(
-                    refreshHomeScreen: r!,
-                    game: game,
-                    cubelets: cubes[index],
-                    anglex: anglex,
-                    angley: angley,
+                  child:TextButton (
+                    onPressed: () {
+                      if (cubes[index].id != 14) {
+                        List<int> temp = game.clickedOnTile(cubes[index].id);
+                        for (var i in temp) {
+                          game.swapCurrentState(
+                              game.cubelets[i - 1].i,
+                              game.cubelets[i - 1].j,
+                              game.cubelets[i - 1].k,
+                              game.cubelets[26].i,
+                              game.cubelets[26].j,
+                              game.cubelets[26].k);
+                          game.swapCubelets(
+                              game.cubelets[i - 1], game.cubelets[26]);
+                        }
+                        game.moves += temp.isEmpty ? 0 : 1;
+                        r!();
+                      }
+                    },
+                    child: SmallCube(
+                      refreshHomeScreen: r!,
+                      game: game,
+                      cubelets: cubes[index],
+                      anglex: anglex,
+                      angley: angley,
+                    ),
                   ),
                 ),
         );
         return Stack(
+          clipBehavior: Clip.none,
           children: children,
         );
       },
