@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(),
         ).apply(
           bodyColor: Colors.white,
-          fontFamily: 'Titan'
+          fontFamily: 'Titan',
         ),
       ),
       home: const HomePage(),

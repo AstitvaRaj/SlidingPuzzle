@@ -12,9 +12,11 @@ class Game extends ChangeNotifier {
   late bool isFinished;
   late bool isStarted;
   late DateTime dateTime;
+  late int gameDifficulty;
   List<Cubelets> cubelets = [];
   double centerX, centerY;
   Game({required this.cubeSize, required this.centerX, required this.centerY}) {
+    gameDifficulty = 5;
     isStarted = false;
     moves = 0;
     state = [
@@ -128,7 +130,24 @@ class Game extends ChangeNotifier {
     shuffleCubes();
   }
 
-  void shuffleCubes() {}
+  void setGameDifficulty(int num) {
+    gameDifficulty = num;
+  }
+
+  void shuffleCubes() {
+    List<int> randomList = generateList(gameDifficulty);
+  }
+
+  List<int> generateList(int n) {
+    Random r = Random();
+    List<int> moves = [];
+    for (int i = 0; i < n; i++) {
+      moves.add((r.nextInt(1000) + 1) % 6);
+      moves.add((r.nextInt(1000) + 1) % 3);
+    }
+    return moves;
+  }
+
   int getSameCordinates(int id) {
     int sameCordinates = 0;
     sameCordinates += cubelets[id - 1].i == cubelets[26].i ? 1 : 0;
@@ -137,10 +156,10 @@ class Game extends ChangeNotifier {
     return sameCordinates;
   }
 
-  void clickedOnTile(int id) {
+  List<int> clickedOnTile(int id) {
+    List<int> tiles = [];
     if (isStarted) {
       if (getSameCordinates(id) == 2) {
-        moves++;
         int temp = 0;
         temp = max(cubelets[id - 1].i == cubelets[26].i ? 0 : 1, temp);
         temp = max(cubelets[id - 1].j == cubelets[26].j ? 0 : 2, temp);
@@ -150,29 +169,20 @@ class Game extends ChangeNotifier {
             if (cubelets[id - 1].i > cubelets[26].i) {
               int k = cubelets[26].i;
               for (; k < cubelets[id - 1].i; k++) {
-                int temps = currentState[cubelets[26].j][cubelets[26].k][k];
-                currentState[cubelets[26].j][cubelets[26].k][k] =
-                    currentState[cubelets[26].j][cubelets[26].k][k + 1];
-                currentState[cubelets[26].j][cubelets[26].k][k + 1] = temps;
-
-                Cubelets a = cubelets[
-                    currentState[cubelets[26].j][cubelets[26].k][k + 1] - 1];
-                Cubelets b = cubelets[
-                    currentState[cubelets[26].j][cubelets[26].k][k] - 1];
-                swapCubelets(a, b);
+                if (cubelets[currentState[cubelets[26].j][cubelets[26].k]
+                            [k + 1]]
+                        .id ==
+                    15) return [];
+                tiles.add(currentState[cubelets[26].j][cubelets[26].k][k + 1]);
               }
             } else {
               int k = cubelets[26].i;
               for (; k > cubelets[id - 1].i; k--) {
-                int tme = currentState[cubelets[26].j][cubelets[26].k][k];
-                currentState[cubelets[26].j][cubelets[26].k][k] =
-                    currentState[cubelets[26].j][cubelets[26].k][k - 1];
-                currentState[cubelets[26].j][cubelets[26].k][k - 1] = tme;
-                Cubelets a = cubelets[
-                    currentState[cubelets[26].j][cubelets[26].k][k - 1] - 1];
-                Cubelets b = cubelets[
-                    currentState[cubelets[26].j][cubelets[26].k][k] - 1];
-                swapCubelets(a, b);
+                if (cubelets[currentState[cubelets[26].j][cubelets[26].k]
+                            [k - 1]]
+                        .id ==
+                    15) return [];
+                tiles.add(currentState[cubelets[26].j][cubelets[26].k][k - 1]);
               }
             }
 
@@ -181,30 +191,20 @@ class Game extends ChangeNotifier {
             if (cubelets[id - 1].j > cubelets[26].j) {
               int k = cubelets[26].j;
               for (; k < cubelets[id - 1].j; k++) {
-                int temps = currentState[k][cubelets[26].k][cubelets[26].i];
-                currentState[k][cubelets[26].k][cubelets[26].i] =
-                    currentState[k + 1][cubelets[26].k][cubelets[26].i];
-                currentState[k + 1][cubelets[26].k][cubelets[26].i] = temps;
-
-                Cubelets a = cubelets[
-                    currentState[k + 1][cubelets[26].k][cubelets[26].i] - 1];
-                Cubelets b = cubelets[
-                    currentState[k][cubelets[26].k][cubelets[26].i] - 1];
-                swapCubelets(a, b);
+                if (cubelets[currentState[k + 1][cubelets[26].k]
+                            [cubelets[26].i]]
+                        .id ==
+                    15) return [];
+                tiles.add(currentState[k + 1][cubelets[26].k][cubelets[26].i]);
               }
             } else {
               int k = cubelets[26].j;
               for (; k > cubelets[id - 1].j; k--) {
-                int temps = currentState[k][cubelets[26].k][cubelets[26].i];
-                currentState[k][cubelets[26].k][cubelets[26].i] =
-                    currentState[k - 1][cubelets[26].k][cubelets[26].i];
-                currentState[k - 1][cubelets[26].k][cubelets[26].i] = temps;
-
-                Cubelets a = cubelets[
-                    currentState[k - 1][cubelets[26].k][cubelets[26].i] - 1];
-                Cubelets b = cubelets[
-                    currentState[k][cubelets[26].k][cubelets[26].i] - 1];
-                swapCubelets(a, b);
+                if (cubelets[currentState[k - 1][cubelets[26].k]
+                            [cubelets[26].i]]
+                        .id ==
+                    15) return [];
+                tiles.add(currentState[k - 1][cubelets[26].k][cubelets[26].i]);
               }
             }
             break;
@@ -212,30 +212,20 @@ class Game extends ChangeNotifier {
             if (cubelets[id - 1].k > cubelets[26].k) {
               int k = cubelets[26].k;
               for (; k < cubelets[id - 1].k; k++) {
-                int temps = currentState[cubelets[26].j][k][cubelets[26].i];
-                currentState[cubelets[26].j][k][cubelets[26].i] =
-                    currentState[cubelets[26].j][k + 1][cubelets[26].i];
-                currentState[cubelets[26].j][k + 1][cubelets[26].i] = temps;
-
-                Cubelets a = cubelets[
-                    currentState[cubelets[26].j][k + 1][cubelets[26].i] - 1];
-                Cubelets b = cubelets[
-                    currentState[cubelets[26].j][k][cubelets[26].i] - 1];
-                swapCubelets(a, b);
+                if (cubelets[currentState[cubelets[26].j][k + 1]
+                            [cubelets[26].i]]
+                        .id ==
+                    15) return [];
+                tiles.add(currentState[cubelets[26].j][k + 1][cubelets[26].i]);
               }
             } else {
               int k = cubelets[26].k;
               for (; k > cubelets[id - 1].k; k--) {
-                int temps = currentState[cubelets[26].j][k][cubelets[26].i];
-                currentState[cubelets[26].j][k][cubelets[26].i] =
-                    currentState[cubelets[26].j][k - 1][cubelets[26].i];
-                currentState[cubelets[26].j][k - 1][cubelets[26].i] = temps;
-
-                Cubelets a = cubelets[
-                    currentState[cubelets[26].j][k - 1][cubelets[26].i] - 1];
-                Cubelets b = cubelets[
-                    currentState[cubelets[26].j][k][cubelets[26].i] - 1];
-                swapCubelets(a, b);
+                if (cubelets[currentState[cubelets[26].j][k - 1]
+                            [cubelets[26].i]]
+                        .id ==
+                    15) return [];
+                tiles.add(currentState[cubelets[26].j][k - 1][cubelets[26].i]);
               }
             }
             break;
@@ -244,6 +234,17 @@ class Game extends ChangeNotifier {
         }
       }
     }
+    return tiles;
+  }
+
+  int getMoves() {
+    return moves;
+  }
+
+  void swapCurrentState(int k1, int i1, int j1, int k2, int i2, int j2,) {
+    int temp = currentState[i1][j1][k1];
+    currentState[i1][j1][k1] = currentState[i2][j2][k2];
+    currentState[i2][j2][k2] = temp;
   }
 
   void swapCubelets(Cubelets a, Cubelets b) {
@@ -272,6 +273,9 @@ class Game extends ChangeNotifier {
         listEquals(currentState[2][1], state[2][1]) &&
         listEquals(currentState[2][2], state[2][2]);
   }
+
+  Game resetGame() =>
+      Game(cubeSize: cubeSize, centerX: centerX, centerY: centerY);
 
   void rotateGame(double angleX, double angleY) {
     var rotationmatrix = rotationMatrix(0, angleX, angleY);

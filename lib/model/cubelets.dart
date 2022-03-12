@@ -1,6 +1,4 @@
 import 'package:rubikscube/model/faces.dart';
-
-import 'game.dart';
 import '../math/utils.dart';
 
 class Cubelets {
