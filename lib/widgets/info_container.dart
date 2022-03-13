@@ -17,15 +17,20 @@ class InfoContainer extends StatelessWidget {
         const SizedBox(
           width: 25,
         ),
+        game.isPuzzleSolved()?
+        Timer(
+          time: game.timeToSolve,
+        ):
         TimerBuilder.periodic(
           const Duration(seconds: 1),
           builder: (context) {
             int seconds = DateTime.now().difference(game.dateTime).inSeconds;
-            double minutes = seconds/60;
-            seconds = seconds%60;
-            return Timer(
-              time:'${minutes<10?'0':''}${minutes.toInt()}:${seconds<10?'0':''}$seconds'
-            );
+            double minutes = seconds / 60;
+            seconds = seconds % 60;
+            String time =
+                '${minutes < 10 ? '0' : ''}${minutes.toInt()}:${seconds < 10 ? '0' : ''}$seconds';
+            game.setTimeToSolve(time);
+            return Timer(time: time);
           },
         ),
       ],

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rubikscube/model/game.dart';
 
 class GameResetButton extends StatelessWidget {
-  GameResetButton({Key? key, required this.game,this.refresh}) : super(key: key);
+  GameResetButton({Key? key,this.refresh}) : super(key: key);
   Function ()? refresh;
-  Game game;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

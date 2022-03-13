@@ -27,11 +27,16 @@ class BigCube extends StatelessWidget {
               : Positioned(
                   top: cubes[index].cordinates[1] - game.cubeSize / 2,
                   left: cubes[index].cordinates[0] - game.cubeSize / 2,
-                  child:TextButton (
+                  child: TextButton(
                     onPressed: () {
                       if (cubes[index].id != 14) {
-                        List<int> temp = game.clickedOnTile(cubes[index].id);
+                        List<int> temp =
+                            game.clickedOnTile(cubes[index].id);
+                        // print(temp);
+
                         for (var i in temp) {
+                          game.swapCubelets(game.cubelets[i - 1],
+                              game.cubelets[26]);
                           game.swapCurrentState(
                               game.cubelets[i - 1].i,
                               game.cubelets[i - 1].j,
@@ -39,8 +44,8 @@ class BigCube extends StatelessWidget {
                               game.cubelets[26].i,
                               game.cubelets[26].j,
                               game.cubelets[26].k);
-                          game.swapCubelets(
-                              game.cubelets[i - 1], game.cubelets[26]);
+
+                          r!();
                         }
                         game.moves += temp.isEmpty ? 0 : 1;
                         r!();

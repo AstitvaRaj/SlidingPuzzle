@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'cubelets.dart';
 import 'package:rubikscube/math/utils.dart';
 
-class Game extends ChangeNotifier {
+class Game {
   late List<List<List<int>>> state;
   late List<List<List<int>>> currentState;
   late double cubeSize;
@@ -15,8 +15,10 @@ class Game extends ChangeNotifier {
   late int gameDifficulty;
   List<Cubelets> cubelets = [];
   double centerX, centerY;
+  late List<int> allMoves;
   Game({required this.cubeSize, required this.centerX, required this.centerY}) {
-    gameDifficulty = 5;
+    allMoves = [];
+    gameDifficulty = 10;
     isStarted = false;
     moves = 0;
     state = [
@@ -112,10 +114,11 @@ class Game extends ChangeNotifier {
     }
     k = 1;
     for (var i in backFace) {
-      cubelets[i.toInt() - 1].faces[5].imagepath = 'assets/tiles/white/$k.jpg';
+      cubelets[i.toInt() - 1].faces[5].imagepath = 'assets/tiles/grey/$k.jpg';
       k++;
     }
   }
+  late String timeToSolve;
   late List<double> topFace,
       bottomFace,
       leftFace,
@@ -133,9 +136,29 @@ class Game extends ChangeNotifier {
   void setGameDifficulty(int num) {
     gameDifficulty = num;
   }
+  void setTimeToSolve(String time){
+    timeToSolve = time;
+  }
 
   void shuffleCubes() {
-    List<int> randomList = generateList(gameDifficulty);
+    int itr = 0;
+    while (itr < gameDifficulty) {
+      List<int> temp = clickedOnTile((Random().nextInt(1000) % 26) + 1);
+      if (temp.isNotEmpty) {
+        itr++;
+        for (var i in temp) {
+          swapCurrentState(
+              cubelets[i - 1].i,
+              cubelets[i - 1].j,
+              cubelets[i - 1].k,
+              cubelets[26].i,
+              cubelets[26].j,
+              cubelets[26].k);
+          swapCubelets(cubelets[i - 1], cubelets[26]);
+        }
+        allMoves = allMoves + temp;
+      }
+    }
   }
 
   List<int> generateList(int n) {
@@ -241,7 +264,14 @@ class Game extends ChangeNotifier {
     return moves;
   }
 
-  void swapCurrentState(int k1, int i1, int j1, int k2, int i2, int j2,) {
+  void swapCurrentState(
+    int k1,
+    int i1,
+    int j1,
+    int k2,
+    int i2,
+    int j2,
+  ) {
     int temp = currentState[i1][j1][k1];
     currentState[i1][j1][k1] = currentState[i2][j2][k2];
     currentState[i2][j2][k2] = temp;

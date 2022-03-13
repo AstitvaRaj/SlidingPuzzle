@@ -28,6 +28,7 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
   double cursorX = 0, cursorY = 0;
   late double height;
   late double width;
+  late AnimationController position;
 
   @override
   void initState() {
@@ -41,7 +42,7 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
     }
     cubeSize = min(height, width) / (isMobile ? 6 : 5);
     centerX = isMobile ? (width / 2) : (width / 2) * 1.25;
-    centerY = height / 2;
+    centerY = isMobile ? height / 2.5 : height / 2;
     game = Game(
       cubeSize: cubeSize,
       centerX: centerX,
@@ -72,6 +73,9 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    if (game.isStarted && game.isPuzzleSolved()) {
+      preStartAnimation.repeat();
+    }
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     if (width < height) {
@@ -119,15 +123,22 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
           ),
           isMobile
               ? Positioned(
-                  top: height * 0.05,
-                  child: Center(
-                    child: Text(
-                      'Sliding Puzzle 3D',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: width * 0.05,
-                        fontFamily: 'Titan',
-                      ),
+                  top: 0,
+                  child: SizedBox(
+                    width: width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        SizedBox(height: 40),
+                        Text(
+                          'Sliding Puzzle 3D',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 35,
+                            fontFamily: 'Titan',
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 )
@@ -145,74 +156,112 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
                 ),
           AnimatedPositioned(
             duration: const Duration(milliseconds: 500),
-            bottom: isMobile ? height * 0.05 : height * 0.1,
-            left: 100,
-            child: game.isStarted
-                ? AnimatedContainer(
-                    duration: const Duration(milliseconds: 500),
-                    child: GameResetButton(
-                        game: game,
+            curve: Curves.decelerate,
+            bottom: isMobile
+                ? game.isStarted
+                    ? 50
+                    : height * 0.35
+                : height * 0.35,
+            left: isMobile? width * 0.225:100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                game.isStarted && game.isPuzzleSolved()
+                    ? const Text(
+                        'Congratulations!!!',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      )
+                    : Container(),
+                const SizedBox(height: 30),
+                Center(
+                  child: game.isStarted
+                      ? InfoContainer(game: game)
+                      : ChooseDifficultyLevel(
+                          refershHomeScreen: () {
+                            setState(() {});
+                          },
+                          game: game,
+                        ),
+                ),
+                const SizedBox(height: 30),
+                game.isStarted
+                    ? GameResetButton(
                         refresh: () {
+                          if (width < height) {
+                            isMobile = true;
+                          } else {
+                            isMobile = false;
+                          }
+                          cubeSize = min(height, width) / (isMobile ? 6 : 5);
+                          centerX = isMobile ? (width / 2) : (width / 2) * 1.25;
+                          centerY = isMobile ? height / 2.5 : height / 2;
                           game = Game(
-                              cubeSize: cubeSize,
-                              centerX: centerX,
-                              centerY: centerY);
+                            cubeSize: cubeSize,
+                            centerX: centerX,
+                            centerY: centerY,
+                          );
                           setState(() {});
-                        }),
-                  )
-                : GestureDetector(
-                    onTap: () {
-                      preStartAnimation.stop();
-                      game.startGame();
-                      setState(() {});
-                    },
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 500),
-                      padding: const EdgeInsets.only(
-                        left: 30,
-                        right: 30,
-                        top: 20,
-                        bottom: 20,
-                      ),
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 7, 124, 219),
-                        borderRadius: BorderRadius.all(Radius.circular(50)),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'Start Game',
-                          style: TextStyle(
-                            fontSize: 25,
+                        },
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          game = Game(
+                            centerX: game.centerX,
+                            centerY: game.centerY,
+                            cubeSize: game.cubeSize,
+                          );
+                          preStartAnimation.stop();
+                          game.startGame();
+                          setState(() {});
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.only(
+                            left: 30,
+                            right: 30,
+                            top: 20,
+                            bottom: 20,
+                          ),
+                          decoration: const BoxDecoration(
+                            color: Color.fromARGB(255, 7, 124, 219),
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Start Game',
+                              style: TextStyle(
+                                fontSize: 25,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
+              ],
+            ),
           ),
-          Positioned(
-            bottom: height * 0.3,
-            left: 50,
-            child: game.isStarted
-                ? Center(
-                    child: InfoContainer(
-                      game: game,
-                    ),
-                  )
-                : ChooseDifficultyLevel(
-                    refershHomeScreen: () {
-                      setState(() {});
-                    },
-                    game: game,
-                  ),
-          ),
-          BigCube(
-            game: game,
-            anglex: anglex,
-            angley: -angley,
-            r: () {
-              setState(() {});
-            },
-          ),
+          isMobile == false
+              ? BigCube(
+                  game: game,
+                  anglex: anglex,
+                  angley: -angley,
+                  r: () {
+                    setState(() {});
+                  },
+                )
+              : game.isStarted
+                  ? AnimatedContainer(
+                      duration: const Duration(seconds: 1),
+                      child: BigCube(
+                        game: game,
+                        anglex: anglex,
+                        angley: angley,
+                        r: () {
+                          setState(() {});
+                        },
+                      ),
+                    )
+                  : Container(),
         ],
       ),
     );

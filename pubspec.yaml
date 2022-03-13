@@ -1,5 +1,5 @@
 name: rubikscube
-description: A new Flutter project.
+description: Entry For Flutter Puzzle Hack.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -86,15 +86,15 @@ flutter:
     - assets/tiles/yellow/7.jpg
     - assets/tiles/yellow/8.jpg
     - assets/tiles/yellow/9.jpg
-    - assets/tiles/white/1.jpg
-    - assets/tiles/white/2.jpg
-    - assets/tiles/white/3.jpg
-    - assets/tiles/white/4.jpg
-    - assets/tiles/white/5.jpg
-    - assets/tiles/white/6.jpg
-    - assets/tiles/white/7.jpg
-    - assets/tiles/white/8.jpg
-    - assets/tiles/white/9.jpg    
+    - assets/tiles/grey/1.jpg
+    - assets/tiles/grey/2.jpg
+    - assets/tiles/grey/3.jpg
+    - assets/tiles/grey/4.jpg
+    - assets/tiles/grey/5.jpg
+    - assets/tiles/grey/6.jpg
+    - assets/tiles/grey/7.jpg
+    - assets/tiles/grey/8.jpg
+    - assets/tiles/grey/9.jpg    
     - assets/tiles/green/1.jpg
     - assets/tiles/green/2.jpg
     - assets/tiles/green/3.jpg
