@@ -113,6 +113,7 @@ flutter:
     - assets/tiles/purple/7.jpg
     - assets/tiles/purple/8.jpg
     - assets/tiles/purple/9.jpg
+    - assets/simpledash.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

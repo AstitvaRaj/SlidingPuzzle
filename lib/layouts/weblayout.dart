@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rubikscube/widgets/big_cube.dart';
 import 'package:rubikscube/model/game.dart';
 import 'package:rubikscube/widgets/choose_difficulty.dart';
+import 'package:rubikscube/widgets/final_msg.dart';
 import 'package:rubikscube/widgets/glassmorphism.dart';
 import 'package:rubikscube/widgets/info_container.dart';
 import 'package:rubikscube/widgets/reset_button.dart';
@@ -305,11 +306,11 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
                   triggerAnimation: triggerSwapAnimation,
                 )
               : BigCube(
-                triggerAnimation: triggerSwapAnimation,
-                game: game,
-                anglex: anglex,
-                angley: -angley,
-              ),
+                  triggerAnimation: triggerSwapAnimation,
+                  game: game,
+                  anglex: anglex,
+                  angley: -angley,
+                ),
           AnimatedPositioned(
             duration: const Duration(milliseconds: 500),
             curve: Curves.decelerate,
@@ -318,13 +319,13 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
                     ? 40
                     : height * 0.3
                 : height * 0.35,
-            left : isMobile ? (width*0.175) : 100,
+            left: isMobile ? (width * 0.175) : 100,
             child: Center(
               child: SizedBox(
-                width : isMobile? 250:null,
+                width: isMobile ? 250 : null,
                 child: GlassMorphism(
                     child: Column(
-                      mainAxisSize : MainAxisSize.min,
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         game.isStarted && game.isPuzzleSolved()
@@ -340,7 +341,7 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
                           child: game.isStarted
                               ? InfoContainer(game: game)
                               : ChooseDifficultyLevel(
-                                isMobile: isMobile,
+                                  isMobile: isMobile,
                                   refershHomeScreen: () {
                                     setState(() {});
                                   },
@@ -350,7 +351,7 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
                         const SizedBox(height: 30),
                         game.isStarted
                             ? GameResetButton(
-                              isMobile: isMobile,
+                                isMobile: isMobile,
                                 refresh: () {
                                   if (width < height) {
                                     isMobile = true;
@@ -359,9 +360,11 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
                                   }
                                   cubeSize =
                                       min(height, width) / (isMobile ? 6 : 5);
-                                  centerX =
-                                      isMobile ? (width / 2) : (width / 2) * 1.25;
-                                  centerY = isMobile ? height / 2.5 : height / 2;
+                                  centerX = isMobile
+                                      ? (width / 2)
+                                      : (width / 2) * 1.25;
+                                  centerY =
+                                      isMobile ? height / 2.5 : height / 2;
                                   game = Game(
                                     cubeSize: cubeSize,
                                     centerX: centerX,
@@ -398,7 +401,7 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
                                     child: Text(
                                       'Start Game',
                                       style: TextStyle(
-                                        fontSize: isMobile?20:25,
+                                        fontSize: isMobile ? 20 : 25,
                                       ),
                                     ),
                                   ),
@@ -406,11 +409,49 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
                               ),
                       ],
                     ),
-                    start: 0,
-                    end: 1),
+                    start: 0.1,
+                    end: 0.2),
               ),
             ),
           ),
+          Center(
+            child: Container(
+              height: game.isStarted && game.isPuzzleSolved() ? isMobile?height:height/1.5 : 0,
+              width: game.isStarted && game.isPuzzleSolved() ? isMobile?width:width/2 : 0,
+              child: GlassMorphism(
+                start: 0.4,
+                end: 0.5,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FinalMessage(
+                        moves: game.moves.toString(), isMobile: isMobile),
+                    GameResetButton(
+                      isMobile: isMobile,
+                      refresh: () {
+                        if (width < height) {
+                          isMobile = true;
+                        } else {
+                          isMobile = false;
+                        }
+                        cubeSize = min(height, width) / (isMobile ? 6 : 5);
+                        centerX = isMobile ? (width / 2) : (width / 2) * 1.25;
+                        centerY = isMobile ? height / 2.5 : height / 2;
+                        game = Game(
+                          cubeSize: cubeSize,
+                          centerX: centerX,
+                          centerY: centerY,
+                        );
+                        preStartAnimation.repeat();
+                        setState(() {});
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
