@@ -9,13 +9,11 @@ class SmallCube extends StatelessWidget {
       required this.cubelets,
       required this.anglex,
       required this.angley,
-      required this.game,
-      required this.refreshHomeScreen})
+      required this.game,})
       : super(key: key);
   final Game game;
   final Cubelets cubelets;
   final double anglex, angley;
-  final Function() refreshHomeScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +36,8 @@ class SmallCube extends StatelessWidget {
                   height: cubelets.cubeSize * 2,
                   width: cubelets.cubeSize * 2,
                   color: Colors.white,
+                  child: Container(color: Colors.blue.shade200,),
+                  
                 )
                 : Container(
                     padding: const EdgeInsets.all(5),

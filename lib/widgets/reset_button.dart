@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class GameResetButton extends StatelessWidget {
-  GameResetButton({Key? key,this.refresh}) : super(key: key);
-  Function ()? refresh;
+  const GameResetButton({Key? key, this.refresh, required this.isMobile})
+      : super(key: key);
+  final Function()? refresh;
+  final bool isMobile;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -20,11 +22,11 @@ class GameResetButton extends StatelessWidget {
           color: Color.fromARGB(255, 7, 124, 219),
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
-        child: const Center(
+        child: Center(
           child: Text(
             'Reset Game',
             style: TextStyle(
-              fontSize: 25,
+              fontSize: isMobile ? 20 : 25,
             ),
           ),
         ),

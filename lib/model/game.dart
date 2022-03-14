@@ -18,7 +18,7 @@ class Game {
   late List<int> allMoves;
   Game({required this.cubeSize, required this.centerX, required this.centerY}) {
     allMoves = [];
-    gameDifficulty = 10;
+    gameDifficulty = 20;
     isStarted = false;
     moves = 0;
     state = [
@@ -136,28 +136,200 @@ class Game {
   void setGameDifficulty(int num) {
     gameDifficulty = num;
   }
-  void setTimeToSolve(String time){
+
+  void setTimeToSolve(String time) {
     timeToSolve = time;
   }
 
   void shuffleCubes() {
     int itr = 0;
     while (itr < gameDifficulty) {
-      List<int> temp = clickedOnTile((Random().nextInt(1000) % 26) + 1);
-      if (temp.isNotEmpty) {
-        itr++;
-        for (var i in temp) {
-          swapCurrentState(
-              cubelets[i - 1].i,
-              cubelets[i - 1].j,
-              cubelets[i - 1].k,
-              cubelets[26].i,
-              cubelets[26].j,
-              cubelets[26].k);
-          swapCubelets(cubelets[i - 1], cubelets[26]);
-        }
-        allMoves = allMoves + temp;
+      int temp = Random().nextInt(100000000) % 6;
+      temp++;
+      Cubelets a, b;
+      switch (temp) {
+        case 1:
+          if (cubelets[26].i - 1 >= 0) {
+            a = cubelets[currentState[cubelets[26].j][cubelets[26].k]
+                    [cubelets[26].i - 1] -
+                1];
+            b = cubelets[26];
+            if (a.id != 14){
+              swapCurrentState(
+                  cubelets[currentState[cubelets[26].j][cubelets[26].k]
+                              [cubelets[26].i - 1] -
+                          1]
+                      .i,
+                  cubelets[currentState[cubelets[26].j][cubelets[26].k]
+                              [cubelets[26].i - 1] -
+                          1]
+                      .j,
+                  cubelets[currentState[cubelets[26].j][cubelets[26].k]
+                              [cubelets[26].i - 1] -
+                          1]
+                      .k,
+                  cubelets[26].i,
+                  cubelets[26].j,
+                  cubelets[26].k);
+            swapCubelets(a, b);
+            itr++;
+            }
+          }
+          break;
+        case 2:
+          if (cubelets[26].j - 1 >= 0) {
+            a = cubelets[currentState[cubelets[26].j - 1][cubelets[26].k]
+                    [cubelets[26].i] -
+                1];
+            b = cubelets[26];
+            if(a.id!=14){
+
+            
+            swapCurrentState(
+                cubelets[currentState[cubelets[26].j - 1][cubelets[26].k]
+                            [cubelets[26].i] -
+                        1]
+                    .i,
+                cubelets[currentState[cubelets[26].j - 1][cubelets[26].k]
+                            [cubelets[26].i] -
+                        1]
+                    .j,
+                cubelets[currentState[cubelets[26].j - 1][cubelets[26].k]
+                            [cubelets[26].i] -
+                        1]
+                    .k,
+                cubelets[26].i,
+                cubelets[26].j,
+                cubelets[26].k);
+            swapCubelets(a, b);
+            itr++;}
+          }
+          break;
+        case 3:
+          if (cubelets[26].k - 1 >= 0) {
+            a = cubelets[currentState[cubelets[26].j][cubelets[26].k - 1]
+                    [cubelets[26].i] -
+                1];
+            b = cubelets[26];
+            if(a.id!=14){
+            swapCurrentState(
+                cubelets[currentState[cubelets[26].j][cubelets[26].k - 1]
+                            [cubelets[26].i] -
+                        1]
+                    .i,
+                cubelets[currentState[cubelets[26].j][cubelets[26].k - 1]
+                            [cubelets[26].i] -
+                        1]
+                    .j,
+                cubelets[currentState[cubelets[26].j][cubelets[26].k - 1]
+                            [cubelets[26].i] -
+                        1]
+                    .k,
+                cubelets[26].i,
+                cubelets[26].j,
+                cubelets[26].k);
+            swapCubelets(a, b);
+            itr++;}
+          }
+          break;
+        case 4:
+          if (cubelets[26].i + 1 < 3) {
+            a = cubelets[currentState[cubelets[26].j][cubelets[26].k]
+                    [cubelets[26].i + 1] -
+                1];
+            b = cubelets[26];
+            if(a.id!=14){
+            swapCurrentState(
+                cubelets[currentState[cubelets[26].j][cubelets[26].k]
+                            [cubelets[26].i + 1] -
+                        1]
+                    .i,
+                cubelets[currentState[cubelets[26].j][cubelets[26].k]
+                            [cubelets[26].i + 1] -
+                        1]
+                    .j,
+                cubelets[currentState[cubelets[26].j][cubelets[26].k]
+                            [cubelets[26].i + 1] -
+                        1]
+                    .k,
+                cubelets[26].i,
+                cubelets[26].j,
+                cubelets[26].k);
+            swapCubelets(a, b);
+            itr++;}
+          }
+          break;
+        case 5:
+          if (cubelets[26].k + 1 < 3) {
+            a = cubelets[currentState[cubelets[26].j][cubelets[26].k + 1]
+                    [cubelets[26].i] -
+                1];
+            b = cubelets[26];
+            if(a.id!=14){
+            swapCurrentState(
+                cubelets[currentState[cubelets[26].j][cubelets[26].k + 1]
+                            [cubelets[26].i] -
+                        1]
+                    .i,
+                cubelets[currentState[cubelets[26].j][cubelets[26].k + 1]
+                            [cubelets[26].i] -
+                        1]
+                    .j,
+                cubelets[currentState[cubelets[26].j][cubelets[26].k + 1]
+                            [cubelets[26].i] -
+                        1]
+                    .k,
+                cubelets[26].i,
+                cubelets[26].j,
+                cubelets[26].k);
+            swapCubelets(a, b);
+            itr++;}
+          }
+          break;
+        case 6:
+          if (cubelets[26].j + 1 < 3) {
+            a = cubelets[currentState[cubelets[26].j + 1][cubelets[26].k]
+                    [cubelets[26].i] -
+                1];
+            b = cubelets[26];
+            if(a.id!=14){
+            swapCurrentState(
+                cubelets[currentState[cubelets[26].j + 1][cubelets[26].k]
+                            [cubelets[26].i] -
+                        1]
+                    .i,
+                cubelets[currentState[cubelets[26].j + 1][cubelets[26].k]
+                            [cubelets[26].i] -
+                        1]
+                    .j,
+                cubelets[currentState[cubelets[26].j + 1][cubelets[26].k]
+                            [cubelets[26].i] -
+                        1]
+                    .k,
+                cubelets[26].i,
+                cubelets[26].j,
+                cubelets[26].k);
+            swapCubelets(a, b);
+            itr++;}
+          }
+          break;
+        default:
+          break;
       }
+      // List<int> temp = clickedOnTile((r.nextInt(1000000000) % 27) + 1);
+      // if (temp.isNotEmpty) {
+      //   itr++;
+      //   for (var i in temp) {
+      //     swapCurrentState(
+      //         cubelets[i - 1].i,
+      //         cubelets[i - 1].j,
+      //         cubelets[i - 1].k,
+      //         cubelets[26].i,
+      //         cubelets[26].j,
+      //         cubelets[26].k);
+      //     swapCubelets(cubelets[i - 1], cubelets[26]);
+      //   }
+      // }
     }
   }
 
@@ -281,6 +453,18 @@ class Game {
     List<double> tempCordinates = b.initialCordinates;
     b.initialCordinates = a.initialCordinates;
     a.initialCordinates = tempCordinates;
+    int temp = b.i;
+    b.i = a.i;
+    a.i = temp;
+    temp = b.j;
+    b.j = a.j;
+    a.j = temp;
+    temp = b.k;
+    b.k = a.k;
+    a.k = temp;
+  }
+
+  void swapCubeletsIndex(Cubelets a, Cubelets b) {
     int temp = b.i;
     b.i = a.i;
     a.i = temp;

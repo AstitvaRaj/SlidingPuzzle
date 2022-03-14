@@ -1,11 +1,11 @@
 {
-    "name": "rubikscube",
-    "short_name": "rubikscube",
+    "name": "Sliding Puzzle",
+    "short_name": "Sliding Puzzle",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "An Entry For Flutter Puzzle Hack",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

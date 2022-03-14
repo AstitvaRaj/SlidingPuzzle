@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:timer_builder/timer_builder.dart';
 
 class Timer extends StatelessWidget {
   const Timer({Key? key, required this.time}) : super(key: key);
@@ -25,8 +24,7 @@ class Timer extends StatelessWidget {
           style: const TextStyle(
             fontSize: 20,
           ),
-        ),
-       
+        ),       
       ],
     );
   }

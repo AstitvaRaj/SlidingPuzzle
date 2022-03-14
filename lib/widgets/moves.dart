@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Moves extends StatelessWidget {
-  Moves({Key? key, required this.moves}) : super(key: key);
-  String moves;
+  const Moves({Key? key, required this.moves}) : super(key: key);
+  final String moves;
   @override
   Widget build(BuildContext context) {
     return Column(

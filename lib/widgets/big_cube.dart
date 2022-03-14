@@ -4,16 +4,16 @@ import 'package:rubikscube/widgets/small_cube.dart';
 import '../model/cubelets.dart';
 
 class BigCube extends StatelessWidget {
-  BigCube(
-      {Key? key,
-      required this.game,
-      required this.anglex,
-      required this.angley,
-      this.r})
-      : super(key: key);
-  Game game;
-  double anglex, angley;
-  final Function()? r;
+  const BigCube({
+    Key? key,
+    required this.game,
+    required this.anglex,
+    required this.angley,
+    required this.triggerAnimation,
+  }) : super(key: key);
+  final Game game;
+  final double anglex, angley;
+  final Function(List<int>) triggerAnimation;
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -30,29 +30,11 @@ class BigCube extends StatelessWidget {
                   child: TextButton(
                     onPressed: () {
                       if (cubes[index].id != 14) {
-                        List<int> temp =
-                            game.clickedOnTile(cubes[index].id);
-                        // print(temp);
-
-                        for (var i in temp) {
-                          game.swapCubelets(game.cubelets[i - 1],
-                              game.cubelets[26]);
-                          game.swapCurrentState(
-                              game.cubelets[i - 1].i,
-                              game.cubelets[i - 1].j,
-                              game.cubelets[i - 1].k,
-                              game.cubelets[26].i,
-                              game.cubelets[26].j,
-                              game.cubelets[26].k);
-
-                          r!();
-                        }
-                        game.moves += temp.isEmpty ? 0 : 1;
-                        r!();
+                        List<int> temp = game.clickedOnTile(cubes[index].id);
+                        triggerAnimation(temp);
                       }
                     },
                     child: SmallCube(
-                      refreshHomeScreen: r!,
                       game: game,
                       cubelets: cubes[index],
                       anglex: anglex,
