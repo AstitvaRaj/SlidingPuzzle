@@ -210,11 +210,6 @@ class _WebLayoutState extends State<WebLayout> with TickerProviderStateMixin {
           if (onCompletePuzzle.isCompleted) {
             onCompletePuzzle.reset();
             preStartAnimation.repeat();
-            Future.delayed(const Duration(seconds: 10),(){
-              game.isStarted = false;              
-              setState((){});
-            });
-            
           }
           setState(() {});
         })
